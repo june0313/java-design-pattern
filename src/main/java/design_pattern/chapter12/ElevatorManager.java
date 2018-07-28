@@ -2,7 +2,6 @@ package design_pattern.chapter12;
 
 import com.sun.javafx.scene.traversal.Direction;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,31 +10,32 @@ import java.util.List;
  * @version 1.0
  */
 public class ElevatorManager {
-	private List<ElevatorController> controllerList;
+    private List<ElevatorController> controllerList;
+    private SchedulingStrategyID strategyID;
 
-	public ElevatorManager(int controllerCount) {
-		controllerList = new ArrayList<>(controllerCount);
+    public ElevatorManager(int controllerCount, SchedulingStrategyID strategyID) {
+        controllerList = new ArrayList<>(controllerCount);
 
-		for (int i = 0; i < controllerCount; i++) {
-			ElevatorController controller = new ElevatorController(1);
-			controllerList.add(controller);
-		}
-	}
+        for (int i = 0; i < controllerCount; i++) {
+            ElevatorController controller = new ElevatorController(1);
+            controllerList.add(controller);
+        }
 
-	public void requestElevator(int destination, Direction direction) {
-		ElevatorScheduler scheduler;
+        this.strategyID = strategyID;
+    }
 
-		if (LocalDateTime.now().getHour() < 13) {
-			scheduler = new ResponseTimeScheduler();
-		} else {
-			scheduler = new ThroughputScheduler();
-		}
+    public void setStrategyID(SchedulingStrategyID strategyID) {
+        this.strategyID = strategyID;
+    }
 
-		int selectedElevator = scheduler.selectElevator(this, destination, direction);
+    public void requestElevator(int destination, Direction direction) {
+        // 전략 ID에 해당하는 스케쥴러 사용
+        ElevatorScheduler scheduler = SchedulerFactory.getScheduler(strategyID);
+        System.out.println(scheduler);
 
-		controllerList.get(selectedElevator).goToFloor(destination);
-	}
-
+        int selectedElevator = scheduler.selectElevator(this, destination, direction);
+        controllerList.get(selectedElevator).goToFloor(destination);
+    }
 }
 
 
