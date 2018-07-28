@@ -8,16 +8,16 @@ public class SchedulerFactory {
 
         switch (strategyID) {
             case RESPONSE_TIME:
-                elevatorScheduler = new ResponseTimeScheduler();
+                elevatorScheduler = ResponseTimeScheduler.getInstance();
                 break;
             case THROUGHPUT:
-                elevatorScheduler = new ThroughputScheduler();
+                elevatorScheduler = ThroughputScheduler.getInstance();
                 break;
             case DYNAMIC:
                 if (LocalDateTime.now().getHour() < 13) {
-                    elevatorScheduler = new ResponseTimeScheduler();
+                    elevatorScheduler = ResponseTimeScheduler.getInstance();
                 } else {
-                    elevatorScheduler = new ThroughputScheduler();
+                    elevatorScheduler = ThroughputScheduler.getInstance();
                 }
                 break;
         }
