@@ -1,4 +1,4 @@
-package design_pattern.chapter12;
+package design_pattern.chapter12.controller;
 
 /**
  * @author wayne

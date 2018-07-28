@@ -1,19 +1,21 @@
-package design_pattern.chapter12;
+package design_pattern.chapter12.scheduler;
 
 import com.sun.javafx.scene.traversal.Direction;
+import design_pattern.chapter12.manager.ElevatorManager;
 
 /**
- * 처리량을 최대로 하는 스케쥴링 전략
+ * 대기 시간 최소화 스케쥴링 전략
  */
-public class ThroughputScheduler implements ElevatorScheduler {
+public class ResponseTimeScheduler implements ElevatorScheduler {
     private static ElevatorScheduler scheduler;
 
-    private ThroughputScheduler() {
+    private ResponseTimeScheduler() {
+
     }
 
     public static ElevatorScheduler getInstance() {
         if (scheduler == null) {
-            scheduler = new ThroughputScheduler();
+            scheduler = new ResponseTimeScheduler();
         }
 
         return scheduler;

@@ -1,6 +1,8 @@
-package design_pattern.chapter12;
+package design_pattern.chapter12.manager;
 
 import com.sun.javafx.scene.traversal.Direction;
+import design_pattern.chapter12.controller.ElevatorController;
+import design_pattern.chapter12.scheduler.ElevatorScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,28 +11,29 @@ import java.util.List;
  * @author wayne
  * @version 1.0
  */
-public class ElevatorManager {
+public abstract class ElevatorManager {
     private List<ElevatorController> controllerList;
-    private SchedulingStrategyID strategyID;
 
-    public ElevatorManager(int controllerCount, SchedulingStrategyID strategyID) {
+    public ElevatorManager(int controllerCount) {
         controllerList = new ArrayList<>(controllerCount);
 
         for (int i = 0; i < controllerCount; i++) {
             ElevatorController controller = new ElevatorController(1);
             controllerList.add(controller);
         }
-
-        this.strategyID = strategyID;
     }
 
-    public void setStrategyID(SchedulingStrategyID strategyID) {
-        this.strategyID = strategyID;
-    }
+    /**
+     * hook method
+     */
+    protected abstract ElevatorScheduler getScheduler();
 
+    /**
+     * template method
+     */
     public void requestElevator(int destination, Direction direction) {
-        // 전략 ID에 해당하는 스케쥴러 사용
-        ElevatorScheduler scheduler = SchedulerFactory.getScheduler(strategyID);
+        // 하위 클래스에서 오버라이드된 getScheduler()를 호출
+        ElevatorScheduler scheduler = getScheduler();
         System.out.println(scheduler);
 
         int selectedElevator = scheduler.selectElevator(this, destination, direction);
