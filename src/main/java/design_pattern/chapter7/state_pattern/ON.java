@@ -13,7 +13,8 @@ public class ON implements State {
 
 	@Override
 	public void onButtonPushed(Light light) {
-		System.out.println("noAction");
+		System.out.println("취침등 상태");
+		light.setState(SLEEPING.getInstance());
 	}
 
 	@Override
